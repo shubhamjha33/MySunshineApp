@@ -120,7 +120,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.v("TabDebug","In onCreateLoader");
         Intent intent=getActivity().getIntent();
-        if(intent==null)
+        if(intent==null||intent.getData()==null)
             return null;
         mForecastStr=intent.getDataString();
         Log.v("TabDebug",mForecastStr);

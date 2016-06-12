@@ -29,6 +29,16 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         Log.v(LOG_CLASS_NAME, "onCreate Called");
         setContentView(R.layout.activity_main);
+        if(findViewById(R.id.weather_detail_container)!=null){
+            mTwoPane=true;
+            if(savedInstanceState==null){
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.weather_detail_container,new DetailFragment()).
+                        commit();
+            }
+        }
+        else
+            mTwoPane=false;
     }
 
     @Override

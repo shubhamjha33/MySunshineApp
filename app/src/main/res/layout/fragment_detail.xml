@@ -18,12 +18,14 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/detail_day_textview" />
+                android:id="@+id/detail_day_textview"
+                android:text="Today" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/detail_date_textview" />
+                android:id="@+id/detail_date_textview"
+                android:text="June 12" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -40,12 +42,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/detail_high_textview" />
+                        android:id="@+id/detail_high_textview"
+                        android:text="12" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/detail_low_textview" />
+                        android:id="@+id/detail_low_textview"
+                        android:text="11" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -58,29 +62,34 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:src="@drawable/art_clouds"
                         android:id="@+id/detail_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/detail_forecast_textview" />
+                        android:id="@+id/detail_forecast_textview"
+                        android:text="Clouds" />
                 </LinearLayout>
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/detail_humidity_textview" />
+                android:id="@+id/detail_humidity_textview"
+                android:text="78" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/detail_wind_textview" />
+                android:id="@+id/detail_wind_textview"
+                android:text="1" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/detail_pressure_textview" />
+                android:id="@+id/detail_pressure_textview"
+                android:text="989" />
         </LinearLayout>
 
 </ScrollView>
