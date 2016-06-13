@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import shubhamjha33.sunshine.app.data.WeatherContract;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback{
 
     public static String LOG_CLASS_NAME="MainActivity";
 
@@ -29,16 +29,28 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         Log.v(LOG_CLASS_NAME, "onCreate Called");
         setContentView(R.layout.activity_main);
+        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);*/
         if(findViewById(R.id.weather_detail_container)!=null){
             mTwoPane=true;
             if(savedInstanceState==null){
+                DetailFragment df=new DetailFragment();
+                mLocation=Utility.getPreferredLocation(this);
+                Uri dateUri=WeatherContract.WeatherEntry.buildWeatherLocationWithDate(mLocation,System.currentTimeMillis());
+                Bundle b=new Bundle();
+                b.putString("dateUri",dateUri.toString());
+                df.setArguments(b);
                 getSupportFragmentManager().beginTransaction().
-                        replace(R.id.weather_detail_container,new DetailFragment()).
+                        replace(R.id.weather_detail_container,df,DETAILFRAGMENT_TAG).
                         commit();
             }
+
         }
-        else
-            mTwoPane=false;
+        else {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            mTwoPane = false;
+        }
     }
 
     @Override
@@ -68,6 +80,10 @@ public class MainActivity extends AppCompatActivity{
             ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
             if (null != ff) {
                 ff.onLocationChanged();
+            }
+            DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
+            if ( null != df ) {
+                df.onLocationChanged(location);
             }
             mLocation = location;
         }
@@ -121,4 +137,23 @@ public class MainActivity extends AppCompatActivity{
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemSelected(Uri date) {
+        if(mTwoPane){
+            DetailFragment df= new DetailFragment();
+            Bundle b=new Bundle();
+            b.putString("dateUri",date.toString());
+            df.setArguments(b);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.weather_detail_container,df,DETAILFRAGMENT_TAG)
+                    .addToBackStack(null)
+                    .commit();
+        }
+        else{
+            Intent intent=new Intent(this,DetailActivity.class);
+            intent.setData(date);
+            startActivity(intent);
+        }
+    }
 }

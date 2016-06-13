@@ -112,19 +112,26 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
                              Bundle savedInstanceState) {
         View rootView=inflater.inflate(R.layout.fragment_detail, container, false);
         mViewHolder=new ViewHolder(rootView);
-        getLoaderManager().initLoader(DETAIL_ID, null,this);
+        Intent intent=getActivity().getIntent();
+        Bundle b=getArguments();
+        if(intent==null||intent.getData()==null) {
+            Log.v("TabDebug","From bundle");
+            mForecastStr = b.getString("dateUri");
+        }
+        else {
+            Log.v("TabDebug", "From intent");
+            mForecastStr = intent.getDataString();
+        }
+        Log.v("TabDebug",mForecastStr);
+        mUri=Uri.parse(mForecastStr);
+        getLoaderManager().initLoader(DETAIL_ID,null,this);
         return rootView;
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         Log.v("TabDebug","In onCreateLoader");
-        Intent intent=getActivity().getIntent();
-        if(intent==null||intent.getData()==null)
-            return null;
-        mForecastStr=intent.getDataString();
-        Log.v("TabDebug",mForecastStr);
-        return new CursorLoader(getContext(),Uri.parse(mForecastStr),WeatherContract.FORECAST_COLUMNS,null,null,null);
+        return new CursorLoader(getContext(),mUri,WeatherContract.FORECAST_COLUMNS,null,null,null);
     }
 
     @Override

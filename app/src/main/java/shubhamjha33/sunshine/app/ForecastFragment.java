@@ -30,13 +30,24 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
 
     public ForecastAdapter mForecastAdapter;
     public static final int LOADER_ID=101;
+    private static Callback mCallback;
 
     public ForecastFragment() {
+    }
+
+    public interface Callback{
+        public void onItemSelected(Uri date);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try{
+            mCallback=(Callback)context;
+        }catch (ClassCastException ex){
+            throw new ClassCastException(context.toString()
+                    + " must implement Callback");
+        }
     }
 
     @Override
@@ -69,10 +80,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                 if (cursor != null) {
                     String locationSetting = Utility.getPreferredLocation(getActivity());
                     Uri dateUri=WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting, cursor.getLong(WeatherContract.COL_WEATHER_DATE));
-                    Log.v("PhoneDebug",dateUri.toString());
+                    mCallback.onItemSelected(dateUri);
+                    /*Log.v("PhoneDebug",dateUri.toString());
                     Intent intent=new Intent(getActivity(),DetailActivity.class);
                     intent.setData(dateUri);
-                    startActivity(intent);
+                    startActivity(intent);*/
                 }
             }
         });
