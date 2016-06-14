@@ -73,6 +73,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         mForecastAdapter =new ForecastAdapter(getActivity(),cur,0);
         ListView listView=(ListView)rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
+        /*if(savedInstanceState==null)
+            updateWeather();*/
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -92,6 +94,7 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     public void updateWeather(){
+        Log.v("TabDebug","ForecastFragment: updateWeather");
         SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
         String setLocation=sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
         String setMeasureUnit=sharedPreferences.getString(getString(R.string.pref_units_key),getString(R.string.pref_units_metric));

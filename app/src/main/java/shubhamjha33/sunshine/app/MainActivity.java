@@ -29,14 +29,13 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         super.onCreate(savedInstanceState);
         Log.v(LOG_CLASS_NAME, "onCreate Called");
         setContentView(R.layout.activity_main);
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);*/
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         if(findViewById(R.id.weather_detail_container)!=null){
             mTwoPane=true;
             if(savedInstanceState==null){
                 DetailFragment df=new DetailFragment();
-                mLocation=Utility.getPreferredLocation(this);
-                Uri dateUri=WeatherContract.WeatherEntry.buildWeatherLocationWithDate(mLocation,System.currentTimeMillis());
+                Uri dateUri=WeatherContract.WeatherEntry.buildWeatherLocationWithDate(Utility.getPreferredLocation(this),System.currentTimeMillis());
                 Bundle b=new Bundle();
                 b.putString("dateUri",dateUri.toString());
                 df.setArguments(b);
@@ -47,8 +46,6 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
 
         }
         else {
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
             mTwoPane = false;
         }
     }
@@ -74,12 +71,17 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
     @Override
     protected void onResume() {
         super.onResume();
+        Log.v(LOG_CLASS_NAME, "onResume Called");
         String location = Utility.getPreferredLocation(this);
         // update the location in our second pane using the fragment manager
         if (location != null && !location.equals(mLocation)) {
             ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
             if (null != ff) {
+                Log.v(LOG_CLASS_NAME,"calling onLocationChanged");
                 ff.onLocationChanged();
+            }
+            else{
+                Log.v(LOG_CLASS_NAME,"ForecastFrgament not found");
             }
             DetailFragment df = (DetailFragment)getSupportFragmentManager().findFragmentByTag(DETAILFRAGMENT_TAG);
             if ( null != df ) {
@@ -92,13 +94,13 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
     @Override
     protected void onStart() {
         super.onStart();
-        Log.v(LOG_CLASS_NAME,"onStart called");
+        Log.v(LOG_CLASS_NAME, "onStart called");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.v(LOG_CLASS_NAME,"onStop called");
+        Log.v(LOG_CLASS_NAME, "onStop called");
     }
 
     @Override
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
             df.setArguments(b);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.weather_detail_container,df,DETAILFRAGMENT_TAG)
+                    .replace(R.id.weather_detail_container, df, DETAILFRAGMENT_TAG)
                     .addToBackStack(null)
                     .commit();
         }
