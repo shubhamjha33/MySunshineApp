@@ -28,9 +28,11 @@ import shubhamjha33.sunshine.app.data.WeatherContract;
  */
 public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>{
 
-    public ForecastAdapter mForecastAdapter;
+    private ForecastAdapter mForecastAdapter;
     public static final int LOADER_ID=101;
     private static Callback mCallback;
+    private ListView mListView;
+    private int mPosition;
 
     public ForecastFragment() {
     }
@@ -59,23 +61,25 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        mPosition=0;
         setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         View rootView=inflater.inflate(R.layout.fragment_main, container, false);
         String locationSetting=Utility.getPreferredLocation(getActivity());
         String sortOrder= WeatherContract.WeatherEntry.COLUMN_DATE+" ASC";
         Uri weatherForLocationUri= WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(locationSetting, System.currentTimeMillis());
         Cursor cur=getActivity().getContentResolver().query(weatherForLocationUri,WeatherContract.FORECAST_COLUMNS,null,null,sortOrder);
         mForecastAdapter =new ForecastAdapter(getActivity(),cur,0);
-        ListView listView=(ListView)rootView.findViewById(R.id.listview_forecast);
-        listView.setAdapter(mForecastAdapter);
-        /*if(savedInstanceState==null)
-            updateWeather();*/
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView=(ListView)rootView.findViewById(R.id.listview_forecast);
+        mListView.setAdapter(mForecastAdapter);
+        if(savedInstanceState!=null&&savedInstanceState.containsKey("scrollPosition")) {
+            mPosition=savedInstanceState.getInt("scrollPosition",0);
+        }
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
@@ -83,6 +87,8 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
                     String locationSetting = Utility.getPreferredLocation(getActivity());
                     Uri dateUri=WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationSetting, cursor.getLong(WeatherContract.COL_WEATHER_DATE));
                     mCallback.onItemSelected(dateUri);
+                    //savedInstanceState.putInt("scrollPosition",position);
+                    mPosition=position;
                     /*Log.v("PhoneDebug",dateUri.toString());
                     Intent intent=new Intent(getActivity(),DetailActivity.class);
                     intent.setData(dateUri);
@@ -131,11 +137,18 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mForecastAdapter.swapCursor(data);
+        mListView.smoothScrollToPosition(mPosition);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mForecastAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("scrollPosition",mPosition);
     }
 
 }
