@@ -65,6 +65,11 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
         setHasOptionsMenu(true);
     }
 
+    public void setUseTodayLayout(boolean mTwoPane){
+        if(mForecastAdapter!=null)
+            mForecastAdapter.setmUseTodayLayout(!mTwoPane);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
