@@ -19,13 +19,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_day_textview"
-                android:text="Today" />
+                android:text="Today"
+                android:textColor="#1b1818"
+                android:textSize="24sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_date_textview"
-                android:text="June 12" />
+                android:text="June 12"
+                android:textColor="#1b1818"
+                android:textSize="16sp" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -43,13 +47,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/detail_high_textview"
-                        android:text="12" />
+                        android:text="12"
+                        android:textColor="#1b1818"
+                        android:textSize="96sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/detail_low_textview"
-                        android:text="11" />
+                        android:text="11"
+                        android:textColor="#1b1818"
+                        android:textSize="48sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -69,7 +77,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/detail_forecast_textview"
-                        android:text="Clouds" />
+                        android:text="Clouds"
+                        android:textIsSelectable="false"
+                        android:textSize="22sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -77,19 +87,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_humidity_textview"
-                android:text="78" />
+                android:text="78"
+                android:textColor="#1b1818"
+                android:textSize="22sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_wind_textview"
-                android:text="1" />
+                android:text="1"
+                android:textColor="#1b1818"
+                android:textSize="22sp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/detail_pressure_textview"
-                android:text="989" />
+                android:text="989"
+                android:textColor="#1b1818"
+                android:textSize="22sp" />
         </LinearLayout>
 
 </ScrollView>

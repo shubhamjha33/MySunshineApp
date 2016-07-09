@@ -1,12 +1,9 @@
 package shubhamjha33.sunshine.app;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -22,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import shubhamjha33.sunshine.app.data.WeatherContract;
+import shubhamjha33.sunshine.app.sync.SunshineSyncAdapter;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -105,12 +103,14 @@ public class ForecastFragment extends Fragment implements LoaderManager.LoaderCa
     }
 
     public void updateWeather(){
-        Log.v("TabDebug","ForecastFragment: updateWeather");
-        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getContext());
-        String setLocation=sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-        String setMeasureUnit=sharedPreferences.getString(getString(R.string.pref_units_key),getString(R.string.pref_units_metric));
-        Log.v("Sunshine_ForecastFrag", setMeasureUnit);
-        new FetchWeatherTask(getContext()).execute(setLocation, setMeasureUnit);
+        Log.v("TabDebug", "ForecastFragment: updateWeather");
+        /*Intent pendingIntent=new Intent(getActivity(), SunshineService.AlarmReceiver.class);
+        pendingIntent.putExtra(SunshineService.LOCATION_QUERY_EXTRA,Utility.getPreferredLocation(getActivity()));
+        PendingIntent alarmIntent= PendingIntent.getBroadcast(getActivity(),0,pendingIntent,PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager alarmManager= (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.RTC_WAKEUP,
+                SystemClock.elapsedRealtime()+5000,alarmIntent);*/
+        SunshineSyncAdapter.syncImmediately(getActivity());
     }
 
     void onLocationChanged(){

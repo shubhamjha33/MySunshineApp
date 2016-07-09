@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import shubhamjha33.sunshine.app.data.WeatherContract;
+import shubhamjha33.sunshine.app.sync.SunshineSyncAdapter;
 
 public class MainActivity extends AppCompatActivity implements ForecastFragment.Callback{
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         }
         ForecastFragment ff=(ForecastFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
         ff.setUseTodayLayout(mTwoPane);
+        SunshineSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override

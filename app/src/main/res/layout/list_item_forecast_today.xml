@@ -18,21 +18,25 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Today, June 10"
             android:textColor="#1b1818"
-            android:id="@+id/list_item_date_textview" />
+            android:fontFamily="sans-serif-condensed"
+            android:id="@+id/list_item_date_textview"
+            android:textSize="22sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="21"
-            android:id="@+id/list_item_high_textview" />
+            android:id="@+id/list_item_high_textview"
+            android:textSize="72sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="8"
-            android:id="@+id/list_item_low_textview" />
+            android:id="@+id/list_item_low_textview"
+            android:textSize="36sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -53,7 +57,8 @@
             android:layout_height="wrap_content"
             android:text="Clear"
             android:textColor="#1b1818"
-            android:id="@+id/list_item_forecast_textview" />
+            android:id="@+id/list_item_forecast_textview"
+            android:textSize="22sp" />
 
     </LinearLayout>
 </LinearLayout>
